@@ -1,4 +1,4 @@
-package com.example.CollaborationService;
+package com.example.CollaborationService.Redis;
 
 
 import org.springframework.context.annotation.Bean;
