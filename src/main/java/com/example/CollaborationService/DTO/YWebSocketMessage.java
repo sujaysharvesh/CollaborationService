@@ -1,10 +1,15 @@
 package com.example.CollaborationService.DTO;
 
 import com.thoughtworks.xstream.converters.time.YearConverter;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
+
+@Getter
+@Setter
 public class YWebSocketMessage {
     public enum Type {
         SYNC_STEP_1((byte) 0),

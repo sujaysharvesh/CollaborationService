@@ -2,10 +2,13 @@ package com.example.CollaborationService.SessionServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.Set;
 
+
+@Service
 public class UserSessionService {
 
     @Autowired

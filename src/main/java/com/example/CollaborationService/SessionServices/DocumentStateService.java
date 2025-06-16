@@ -2,6 +2,7 @@ package com.example.CollaborationService.SessionServices;
 
 
 import com.example.CollaborationService.DTO.DocumentMetadata;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -10,9 +11,13 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Set;
 
 @Service
 public class DocumentStateService {
+
+    @Autowired
+    private UserSessionService userSessionService;
 
     @Autowired
     private RedisTemplate<String, byte[]> redisTemplate;
@@ -27,12 +32,14 @@ public class DocumentStateService {
         return redisTemplate.opsForValue().get(DOCUMENT_STATE_KEY + documentId);
     }
 
-    public void applyUpdate(String documentId, byte[] updates) {
+    public void applyUpdate(String documentId, byte[] updates) throws JsonProcessingException {
         String key = DOCUMENT_STATE_KEY + documentId;
         byte[] currentState = redisTemplate.opsForValue().get(key);
         byte[] newState = mergeYjsUpdate(currentState, updates);
         redisTemplate.opsForValue().set(key, newState);
         redisTemplate.expire(key, Duration.ofHours(24));
+
+        updateDocumentMetaData(documentId);
 
     }
 
@@ -57,5 +64,16 @@ public class DocumentStateService {
     private DocumentMetadata getDocumentMetadata(String documentId) throws IOException {
         byte[] data = redisTemplate.opsForValue().get(DOCUMENT_META_KEY + documentId);
         return data != null ? DocumentMetadata.fromBytes(data) : new DocumentMetadata(documentId);
+    }
+
+    private void updateDocumentMetaData(String documentId) throws JsonProcessingException {
+        DocumentMetadata metadata = new DocumentMetadata(documentId);
+        metadata.setLastModified(Instant.now());
+
+        Set<String> activeUser = userSessionService.getActiveUsers(documentId);
+        metadata.setActiveUsers(activeUser);
+
+        redisTemplate.opsForValue()
+                .set(DOCUMENT_META_KEY + documentId, metadata.toBytes(), Duration.ofHours(24));
     }
 }
