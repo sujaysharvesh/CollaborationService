@@ -1,7 +1,6 @@
 package com.example.CollaborationService.Service;
 
 import com.example.CollaborationService.DTO.DocumentSaveEvent;
-import com.example.CollaborationService.Messager.RabbitConfig;
 import com.example.CollaborationService.SessionServices.DocumentStateService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

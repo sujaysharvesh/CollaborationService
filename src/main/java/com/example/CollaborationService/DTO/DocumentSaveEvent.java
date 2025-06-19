@@ -5,13 +5,15 @@ import lombok.*;
 
 import java.time.Instant;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Builder
 @Getter
 @Setter
-@Builder
 public class DocumentSaveEvent {
     private String documentId;
+    private String title;
     private String userId;
     private byte[] content;
     private Instant timestamp;

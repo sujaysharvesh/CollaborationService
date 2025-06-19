@@ -1,6 +1,5 @@
 package com.example.CollaborationService.WebSocketConfig;
 
-import com.example.CollaborationService.DTO.DocumentSaveEvent;
 import com.example.CollaborationService.DTO.UserPresenceMessage;
 import com.example.CollaborationService.DTO.YWebSocketMessage;
 import com.example.CollaborationService.Service.DocumentSaveService;
@@ -9,7 +8,6 @@ import com.example.CollaborationService.SessionServices.UserSessionService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.CloseStatus;
@@ -19,7 +17,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
