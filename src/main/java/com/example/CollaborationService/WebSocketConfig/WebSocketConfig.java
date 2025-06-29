@@ -15,10 +15,13 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Autowired
     private CollaborationWebSocketHandler webSocketHandler;
 
+    @Autowired
+    private WebSocketHandshakeInterceptor handshakeInterceptor;
+
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(webSocketHandler, "/ws/collaboration/{documentId}")
                 .setAllowedOrigins("*")
-                .withSockJS();
+                .addInterceptors(handshakeInterceptor);
     }
 }

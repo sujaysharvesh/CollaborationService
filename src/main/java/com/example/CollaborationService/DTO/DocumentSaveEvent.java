@@ -16,5 +16,6 @@ public class DocumentSaveEvent {
     private String title;
     private String userId;
     private byte[] content;
+    
     private Instant timestamp;
 }
